@@ -1,19 +1,15 @@
+import { Logger } from "./logger";
+
 export class Cleanup {
+    private _detailedLogOptions: boolean;
     private _errorCount: number;
     private _cleanupList: Array<Function>;
 
-    constructor() {
+    constructor(detailedLogOptions: boolean) {
+        this._detailedLogOptions = detailedLogOptions;
         this._cleanupList = new Array<Function>();;
         this._errorCount = 0;
     }
-
-    // /**
-    //  * @deprecated Don't use this method if *wdio-cleanuptotal-service* is enabled.
-    //  */
-    // protected initialize() {
-    //     this._cleanupList = new Array<Function>();
-    //     this._errorCount = 0;
-    // }
 
     /**
      * 
@@ -24,16 +20,18 @@ export class Cleanup {
     }
 
     /**
-     * @deprecated Don't use this method if *wdio-cleanuptotal-service* is enabled.
+     * @deprecated Don't use this method directly.
      */
     async finalize(): Promise<void> {
         if (this._cleanupList.length <= 0) {
             return;
         }
 
+        const logger = new Logger(this._detailedLogOptions);
+
         const processId = process.pid;
 
-        console.log(`CleanupTotal [${processId}]: ##### Cleanup initialized #####`);
+        logger.printToLog(`CleanupTotal [${processId}]: ##### Cleanup initialized #####`, false);
 
         this._cleanupList.reverse();
 
@@ -43,23 +41,23 @@ export class Cleanup {
 
                 const message = `CleanupTotal [🙂 ${processId}]: Successfully executed '${this._cleanupList[i].toString()}'`;
 
-                console.log(message);
+                logger.printToLog(message, false);
             }
             catch (ex) {
                 this._errorCount++;
 
                 const message = `CleanupTotal [😕 ${processId}]: Failed to execute '${this._cleanupList[i].toString()}: ${ex}'`;
 
-                console.log(message);
+                logger.printToLog(message, true);
             }
         }
 
         this._cleanupList.length = 0;
 
         if (this._errorCount > 0) {
-            console.log;(`CleanupTotal: Warning!!!: Cleanup for [${processId}] finished with ${this._errorCount} errors`);
+            logger.printToLog(`CleanupTotal: Warning!!!: Cleanup for [${processId}] finished with ${this._errorCount} error(s)`, true);
         }
 
-        console.log(`CleanupTotal [${processId}]: ### Cleanup done ###`);
+        logger.printToLog(`CleanupTotal [${processId}]: ### Cleanup done ###`, false);
     }
 }
