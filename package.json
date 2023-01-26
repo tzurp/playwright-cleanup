@@ -1,9 +1,11 @@
 {
   "name": "playwright-cleanup",
-  "version": "1.0.0",
+  "version": "1.0.1-0",
   "description": "A Playwright cleanup plugin",
   "main": "index.js",
-  "scripts": {"test":"npx playwright test"},
+  "scripts": {
+    "test": "npx playwright test"
+  },
   "keywords": [],
   "author": "Tzur Paldi",
   "license": "ISC",
