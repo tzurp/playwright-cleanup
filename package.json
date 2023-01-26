@@ -2,7 +2,11 @@
   "name": "playwright-cleanup",
   "version": "0.0.2-1",
   "description": "A Playwright cleanup plugin",
-  "main": "index.js",
+  "files": [
+     "/build/src",
+     "/build/app.d.ts"
+    ],
+  "main": "build/app.js",
   "scripts": {
     "test": "npx playwright test"
   },
@@ -11,9 +15,5 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.29.2"
-  },
-  "files": [
-    "/build/src",
-    "/package.json"
-  ]
+  }
 }

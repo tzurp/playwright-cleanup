@@ -1,9 +1,9 @@
 import base, { expect } from "@playwright/test";
-import type { CleanupTotal, DetailedLogOptions } from "../src/fixtures/cleanup-fixture";
-import { cleanupTotal } from "../src/fixtures/cleanup-fixture";
+import type { CleanupTotal, DetailedLogOptions } from "../app";
+import { cleanupTotal } from "../app";
 
 const test = base.extend< CleanupTotal & DetailedLogOptions>({
-  detailedLogOptions: [true, {option: true}],
+  detailedLogOptions: [false, {option: true}],
   cleanup: cleanupTotal.cleanup,
 });
 
