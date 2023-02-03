@@ -1,9 +1,9 @@
 # playwright-cleanup
 
-This plugin for [Playwright](https://playwright.dev/) is used to properly cleanup after each test.
-Cleanup after test might get complicated. For example: Lets say you are creating a bank account and then adding an investment plan and depositing there some money. If you try to delete the account you might probably get a refusion because the account is not empty. <b>playwright-cleanup</b> helps you to do it systematically by 'marking' each entity you create for deletion right after its creation. When the test is finished, <b>playwright-cleanup</b> would delete the investment plan, the deposit and the account in the right order.
+This plugin for [Playwright](https://playwright.dev/) helps simplify test cleanup. It does so by providing a systematic way to mark entities for deletion immediately after creation. This is particularly useful when tests involve creating complex structures, such as a bank account with an investment plan and a deposit. Without proper cleanup, attempting to delete the account may result in errors, such as a refusal due to the account not being empty. However, with <b>playwright-cleanup</b>, entities are deleted in the correct order, ensuring that tests clean up after themselves and do not interfere with each other.
 
 <h2>Installation</h2>
+
 The easiest way to install this module as a (dev-)dependency is by using the following command:
 
 ```
@@ -21,7 +21,7 @@ import { playwrightCleanup } from "playwright-cleanup";
 
 <h2>Usage in test</h2>
 
-You need to import <b>playwright-cleanup</b> object and types as described above, and then use test.extend() to create a new test object that will include it:
+To use playwright-cleanup, simply import the playwright-cleanup object and types, and then extend your test object using test.extend(). This will include the cleanup functionality in your test. No further setup is required. Here's an example:
 
 ```
 import base from "@playwright/test";
@@ -55,9 +55,11 @@ test("should keep things tidy", async ({ page, cleanup}) =>
         // TODO: Execution order would be removeDeposit(accountId) -> removeInvestmentPlan(accountId) -> deleteAccount(accountId).
 ```
 
+That's all there is to it! The cleanup functionality will now be automatically included in your tests.
+
 <h2>Options</h2>
 
-To get detailed terminal logs of the plugins change the `detailedLogOptions` value inside test.extend() to `true`:
+To get detailed terminal logs of the plugins change the `detailedLogOptions` value inside test.extend() to `true` (without the ** **):
 
 ```
 detailedLogOptions: [**true**, {option: true}]
