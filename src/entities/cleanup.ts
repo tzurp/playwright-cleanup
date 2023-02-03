@@ -31,7 +31,7 @@ export class Cleanup {
 
         const processId = process.pid;
 
-        logger.printToLog(`CleanupTotal [${processId}]: ##### Cleanup initialized #####`, false);
+        logger.printToLog(`Playwright-cleanup [${processId}]: ### Cleanup initialized ###`, false);
 
         this._cleanupList.reverse();
 
@@ -39,14 +39,14 @@ export class Cleanup {
             try {
                 await this._cleanupList[i]();
 
-                const message = `CleanupTotal [🙂 ${processId}]: Successfully executed '${this._cleanupList[i].toString()}'`;
+                const message = `Playwright-cleanup [🙂 ${processId}]: Successfully executed '${this._cleanupList[i].toString()}'`;
 
                 logger.printToLog(message, false);
             }
             catch (ex) {
                 this._errorCount++;
 
-                const message = `CleanupTotal [😕 ${processId}]: Failed to execute '${this._cleanupList[i].toString()}: ${ex}'`;
+                const message = `Playwright-cleanup [😕 ${processId}]: Failed to execute '${this._cleanupList[i].toString()}: ${ex}'`;
 
                 logger.printToLog(message, true);
             }
@@ -55,9 +55,9 @@ export class Cleanup {
         this._cleanupList.length = 0;
 
         if (this._errorCount > 0) {
-            logger.printToLog(`CleanupTotal: Warning!!!: Cleanup for [${processId}] finished with ${this._errorCount} error(s)`, true);
+            logger.printToLog(`Playwright-cleanup: Warning!!!: Cleanup for [${processId}] finished with ${this._errorCount} error(s)`, true);
         }
 
-        logger.printToLog(`CleanupTotal [${processId}]: ### Cleanup done ###`, false);
+        logger.printToLog(`Playwright-cleanup [${processId}]: ### Cleanup done ###`, false);
     }
 }

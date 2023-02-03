@@ -1,5 +1,5 @@
-import {cleanupTotal, CleanupTotal, DetailedLogOptions} from "./src/fixtures/cleanup-fixture";
+import {playwrightCleanup, PlaywrightCleanup, DetailedLogOptions} from "./src/fixtures/cleanup-fixture";
 
-export {cleanupTotal};
+export {playwrightCleanup};
 
-export type {CleanupTotal, DetailedLogOptions};
+export type {PlaywrightCleanup, DetailedLogOptions};

@@ -1,10 +1,10 @@
 import base, { expect } from "@playwright/test";
-import type { CleanupTotal, DetailedLogOptions } from "../app";
-import { cleanupTotal } from "../app";
+import type { PlaywrightCleanup, DetailedLogOptions } from "../app";
+import { playwrightCleanup } from "../app";
 
-const test = base.extend< CleanupTotal & DetailedLogOptions>({
+const test = base.extend< PlaywrightCleanup & DetailedLogOptions>({
   detailedLogOptions: [false, {option: true}],
-  cleanup: cleanupTotal.cleanup,
+  cleanup: playwrightCleanup.cleanup,
 });
 
 test('test1', async ({ page, cleanup}) => {

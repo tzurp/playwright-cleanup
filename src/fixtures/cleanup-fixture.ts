@@ -1,6 +1,6 @@
 import { Cleanup } from "../entities/cleanup";
 
-const _cleanupTotal = {
+const _playwrightCleanup = {
     cleanup: async({detailedLogOptions}: any, use: (arg0: Cleanup) => any) => {
         const cleanup = new Cleanup(detailedLogOptions);
 
@@ -10,6 +10,6 @@ const _cleanupTotal = {
     }
 };
 
-export const cleanupTotal = _cleanupTotal;
-export type CleanupTotal = { cleanup: Cleanup };
+export const playwrightCleanup = _playwrightCleanup;
+export type PlaywrightCleanup = { cleanup: Cleanup };
 export type DetailedLogOptions = {detailedLogOptions: boolean};
