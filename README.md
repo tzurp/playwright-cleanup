@@ -1,6 +1,6 @@
 # playwright-cleanup
 
-This plugin for [Playwright](https://playwright.dev/) helps simplify test cleanup. It does so by providing a systematic way to mark entities for deletion immediately after creation. This is particularly useful when tests involve creating complex structures, such as a bank account with an investment plan and a deposit. Without proper cleanup, attempting to delete the account may result in errors, such as a refusal due to the account not being empty. However, with <b>playwright-cleanup</b>, entities are deleted in the correct order, ensuring that tests clean up after themselves and do not interfere with each other.
+This plugin for [Playwright](https://playwright.dev/) helps simplify test cleanup. It does so by providing a systematic way to mark entities for deletion immediately after creation. This is particularly useful when tests involve creating complex structures, such as a bank account with an investment plan and a deposit. Without proper cleanup, attempting to delete the account may result in errors, such as a refusal due to the account not being empty. However, with <b>playwright-cleanup</b>, entities are deleted in the correct order, ensuring that tests clean up after themselves and do not interfere with each other. Read more [here](https://www.linkedin.com/pulse/test-automation-cleanup-advanced-plugin-playwright-tzur-paldi-phd/?trackingId=8R68dOtBSHKrCH0cNAviIA%3D%3D).
 
 <h2>Installation</h2>
 
@@ -38,15 +38,15 @@ test("should keep things tidy", async ({ page, cleanup}) =>
 
             const accountId = createAccount("John Blow");
             
-            cleanup.addCleanup(async () => { await deleteAccount(accountId) }); // TODO: here we mark it for deletion * 
+            cleanup.addCleanup(async () => await deleteAccount(accountId)); // TODO: here we mark it for deletion * 
 
             addInvestmentPlan(accountId, "ModRisk");
 
-            cleanup.addCleanup(async () => { await removeInvestmentPlan(accountId) });
+            cleanup.addCleanup(async () => await removeInvestmentPlan(accountId));
             
             deposit(accountId, 1000000);
 
-            cleanup.addCleanup(async () => { await removeDeposit(accountId) });
+            cleanup.addCleanup(async () => await removeDeposit(accountId));
 
             //...
         });
@@ -59,7 +59,7 @@ That's all there is to it! The cleanup functionality will now be automatically i
 
 <h2>Options</h2>
 
-To get detailed terminal logs of the plugins change the `detailedLogOptions` value inside test.extend() to `true` (without the ** **):
+To get detailed terminal logs of the plugin, change the `detailedLogOptions` value inside test.extend() to `true` (without the ** **):
 
 ```
 detailedLogOptions: [**true**, {option: true}]
