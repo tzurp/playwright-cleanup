@@ -2,13 +2,11 @@ import { Logger } from "./logger";
 
 export class Cleanup {
     private _detailedLogOptions: boolean;
-    private _errorCount: number;
     private _cleanupList: Array<Function>;
 
     constructor(detailedLogOptions: boolean) {
         this._detailedLogOptions = detailedLogOptions;
         this._cleanupList = new Array<Function>();;
-        this._errorCount = 0;
     }
 
     /**
@@ -27,6 +25,8 @@ export class Cleanup {
             return;
         }
 
+        const errors = [];
+
         const logger = new Logger(this._detailedLogOptions);
 
         const processId = process.pid;
@@ -43,20 +43,22 @@ export class Cleanup {
 
                 logger.printToLog(message, false);
             }
-            catch (ex) {
-                this._errorCount++;
+            catch (err: any) {
+                const message = `Playwright-cleanup [😕 ${processId}]: Failed to execute '${this._cleanupList[i].toString()}': ${err.message}, ${err.stack}`;
 
-                const message = `Playwright-cleanup [😕 ${processId}]: Failed to execute '${this._cleanupList[i].toString()}: ${ex}'`;
-
-                logger.printToLog(message, true);
+                errors.push(message);
             }
         }
 
-        this._cleanupList.length = 0;
+        if (errors.length > 0) {
+            logger.printToLog(`Playwright-cleanup: Warning!!!: Cleanup for [${processId}] finished with ${errors.length} error(s):`, true);
 
-        if (this._errorCount > 0) {
-            logger.printToLog(`Playwright-cleanup: Warning!!!: Cleanup for [${processId}] finished with ${this._errorCount} error(s)`, true);
+            errors.forEach(error => {
+                logger.printToLog(error, true);
+            });
         }
+
+        this._cleanupList.length = 0;
 
         logger.printToLog(`Playwright-cleanup [${processId}]: ### Cleanup done ###`, false);
     }
