@@ -1,6 +1,6 @@
 {
   "name": "playwright-cleanup",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Playwright cleanup plugin",
   "files": [
     "/build/src",
