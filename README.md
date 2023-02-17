@@ -68,3 +68,7 @@ detailedLogOptions: [**true**, {option: true}]
 <h2>Typescript support</h2>
 
 Typescript is supported for this plugin.
+
+<h2>Support</h2>
+
+For any questions or suggestions contact me at: [tzur.paldi@outlook.com](mailto:tzur.paldi@outlook.com?subjet=Playwright-cleanup%20Support)
