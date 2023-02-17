@@ -6,7 +6,7 @@ export class Logger {
     }
 
     printToLog(message: string, isMandatory: boolean) {
-        if (this._detailedLogOptions || !this._detailedLogOptions && isMandatory) {
+        if (this._detailedLogOptions || isMandatory) {
             console.log(message);
         }
     }

@@ -3,7 +3,7 @@ import type { PlaywrightCleanup, DetailedLogOptions } from "../app";
 import { playwrightCleanup } from "../app";
 
 const test = base.extend<PlaywrightCleanup & DetailedLogOptions>({
-  detailedLogOptions: [false, { option: true }],
+  detailedLogOptions: [true, { option: true }],
   cleanup: playwrightCleanup.cleanup,
 });
 
