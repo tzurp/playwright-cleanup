@@ -10,7 +10,10 @@
   "scripts": {
     "test": "npx playwright test"
   },
-  "keywords": [],
+  "keywords": [
+    "playwright-plugin",
+    "cleanup"
+  ],
   "author": "Tzur Paldi",
   "license": "ISC",
   "devDependencies": {

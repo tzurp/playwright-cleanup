@@ -21,14 +21,14 @@ import { playwrightCleanup } from "playwright-cleanup";
 
 <h2>Usage in test</h2>
 
-To use playwright-cleanup, simply import the playwright-cleanup object and types, and then extend your test object using test.extend(). This will include the cleanup functionality in your test. No further setup is required. Here's an example:
+To use playwright-cleanup, simply import the playwright-cleanup object and types, and then extend your test object using test.extend<>(). This will include the cleanup functionality in your test. No further setup is required. Here's an example:
 
 ```
 import base from "@playwright/test";
 import type { PlaywrightCleanup, DetailedLogOptions } from "playwright-cleanup";
 import { playwrightCleanup } from "playwright-cleanup";
 
-const test = base.extend< PlaywrightCleanup & DetailedLogOptions>({
+const test = base.extend<PlaywrightCleanup & DetailedLogOptions>({
   detailedLogOptions: [false, {option: true}],
   cleanup: playwrightCleanup.cleanup,
 });
@@ -56,6 +56,7 @@ test("should keep things tidy", async ({ page, cleanup}) =>
 ```
 
 That's all there is to it! The cleanup functionality will now be automatically included in your tests.
+* It is advisable to define the extended `test` object in a separate test-base file.
 
 <h2>Options</h2>
 
