@@ -33,7 +33,7 @@ const test = base.extend<PlaywrightCleanup & DetailedLogOptions>({
   cleanup: playwrightCleanup.cleanup,
 });
 
-test("should keep things tidy", async ({ page, cleanup}) =>
+test("should keep things tidy", async ({ page, cleanup}) => {
             // ...
 
             const accountId = createAccount("John Blow");
@@ -56,7 +56,8 @@ test("should keep things tidy", async ({ page, cleanup}) =>
 ```
 
 That's all there is to it! The cleanup functionality will now be automatically included in your tests.
-* It is advisable to define the extended `test` object in a separate test-base file.
+
+* It is advisable to define the extended `test` object in a separate, reusable `test-base` file.
 
 <h2>Options</h2>
 
