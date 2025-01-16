@@ -1,11 +1,12 @@
 import { Logger } from "./logger";
+import { Options } from "./options";
 
 export class Cleanup {
-    private _detailedLogOptions: boolean;
+    private _supressLogging: boolean|undefined;
     private _cleanupList: Array<Function>;
 
-    constructor(detailedLogOptions: boolean) {
-        this._detailedLogOptions = detailedLogOptions;
+    constructor(options: Options) {
+        this._supressLogging = options.suppressLogging;
         this._cleanupList = new Array<Function>();;
     }
 
@@ -27,11 +28,11 @@ export class Cleanup {
 
         const errors = [];
 
-        const logger = new Logger(this._detailedLogOptions);
+        const logger = new Logger(this._supressLogging);
 
         const processId = process.pid;
 
-        logger.printToLog(`Playwright-cleanup [${processId}]: ### Cleanup initialized ###`, false);
+        logger.info(`Playwright-cleanup [${processId}]: ### Cleanup initialized ###`, false);
 
         this._cleanupList.reverse();
 
@@ -41,7 +42,7 @@ export class Cleanup {
 
                 const message = `Playwright-cleanup [🙂 ${processId}]: Successfully executed '${this._cleanupList[i].toString()}'`;
 
-                logger.printToLog(message, false);
+                logger.info(message, false);
             }
             catch (err: any) {
                 const message = `Playwright-cleanup [😕 ${processId}]: Failed to execute '${this._cleanupList[i].toString()}': ${err.message}, ${err.stack}`;
@@ -51,15 +52,15 @@ export class Cleanup {
         }
 
         if (errors.length > 0) {
-            logger.printToLog(`Playwright-cleanup: Warning!!!: Cleanup for [${processId}] finished with ${errors.length} error(s):`, true);
+            logger.error(`Cleanup for [${processId}] finished with ${errors.length} error(s):`);
 
             errors.forEach(error => {
-                logger.printToLog(error, true);
+                logger.error(error);
             });
         }
 
         this._cleanupList.length = 0;
 
-        logger.printToLog(`Playwright-cleanup [${processId}]: ### Cleanup done ###`, false);
+        logger.info(`Playwright-cleanup [${processId}]: ### Cleanup done ###`, false);
     }
 }
