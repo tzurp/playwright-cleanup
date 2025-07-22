@@ -1,11 +1,11 @@
-import base, { expect } from "@playwright/test";
-import type { PlaywrightCleanup, DetailedLogOptions } from "../app";
-import { playwrightCleanup } from "../app";
+import {test as base, expect } from "@playwright/test";
+import extendPlaywrightCleanup, { PlaywrightCleanup, CleanupOptions } from "../app";
 
-const test = base.extend<PlaywrightCleanup & DetailedLogOptions>({
-  detailedLogOptions: [true, { option: true }],
-  cleanup: playwrightCleanup.cleanup,
-});
+const options:CleanupOptions = {
+  suppressLogging: true
+}
+
+const test = base.extend<CleanupOptions & PlaywrightCleanup>(extendPlaywrightCleanup(options));
 
 test('faulty cleanup', async ({ page, cleanup }) => {
   await page.goto('https://playwright.dev/');
@@ -21,7 +21,7 @@ test('faulty cleanup', async ({ page, cleanup }) => {
 
   cleanup.addCleanup(async () => console.log("Title playwright = " + await page.title()));
 
-  expect(5).toBe(2 + 1);
+  expect(5).toBe(4 + 1);
 });
 
 test('successful cleanup', async ({ page, cleanup: cleanup }) => {

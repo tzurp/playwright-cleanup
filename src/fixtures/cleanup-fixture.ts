@@ -1,8 +1,9 @@
 import { Cleanup } from "../entities/cleanup";
+import { Options } from "../entities/options";
 
 const _playwrightCleanup = {
-    cleanup: async({detailedLogOptions}: any, use: (arg0: Cleanup) => any) => {
-        const cleanup = new Cleanup(detailedLogOptions);
+    cleanup: async({cleanupOptions}: any, use: (arg0: Cleanup) => any) => {
+        const cleanup = new Cleanup(cleanupOptions);
 
         await use(cleanup);
 
@@ -12,4 +13,4 @@ const _playwrightCleanup = {
 
 export const playwrightCleanup = _playwrightCleanup;
 export type PlaywrightCleanup = { cleanup: Cleanup };
-export type DetailedLogOptions = {detailedLogOptions: boolean};
+export type CleanupOptions = Options;
