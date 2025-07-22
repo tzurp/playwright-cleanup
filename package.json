@@ -16,7 +16,15 @@
     "cleanup"
   ],
   "author": "Tzur Paldi",
-  "license": "ISC",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tzurp/playwright-cleanup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tzurp/playwright-cleanup/issues"
+  },
+  "homepage": "https://github.com/tzurp/playwright-cleanup#readme",
   "devDependencies": {
     "@playwright/test": "^1.49.1",
     "@types/node": "^22.10.6"
