@@ -27,6 +27,6 @@
   "homepage": "https://github.com/tzurp/playwright-cleanup#readme",
   "devDependencies": {
     "@playwright/test": "^1.49.1",
-    "@types/node": "^22.10.6"
+    "@types/node": "^26.1.2"
   }
 }
