@@ -22,22 +22,46 @@ npm install playwright-cleanup --save-dev
 
 ## Usage
 
-Import playwright-cleanup in your test file as follows:
+Import the runtime module in your test file as follows:
 
 ```typescript
-import extendPlaywrightCleanup, { PlaywrightCleanup, CleanupOptions } from "playwright-cleanup";
+import extendPlaywrightCleanup from "playwright-cleanup";
 ```
+
+For TypeScript, add the fixture and option types separately:
+
+```typescript
+import type { PlaywrightCleanup, CleanupOptions } from "playwright-cleanup";
+```
+
+For JavaScript, you can skip the type import entirely.
 
 ## Usage in test
 
-To use playwright-cleanup, simply import the extendPlaywrightCleanup object and types, and then extend your test object using test.extend<>(). This will include the `cleanup` fixture functionality in your test. No further setup is required. Here's an example:
+To use playwright-cleanup, extend your Playwright `test` object with the cleanup fixture. This adds the `cleanup` helper to your tests with no extra setup.
 
 ```typescript
+// test.ts
 import base from "@playwright/test";
-import extendPlaywrightCleanup, { PlaywrightCleanup, CleanupOptions } from "playwright-cleanup";
+import extendPlaywrightCleanup from "playwright-cleanup";
+import type { PlaywrightCleanup, CleanupOptions } from "playwright-cleanup";
 
 const test = base.extend<CleanupOptions & PlaywrightCleanup>(extendPlaywrightCleanup());
+```
 
+For JavaScript, the same setup works without the type import:
+
+```javascript
+// test.js
+import base from "@playwright/test";
+import extendPlaywrightCleanup from "playwright-cleanup";
+
+const test = base.extend(extendPlaywrightCleanup());
+```
+
+Example usage:
+
+```typescript
 test("should keep things tidy", async ({ page, cleanup}) => {
             // ...
 
@@ -62,7 +86,7 @@ test("should keep things tidy", async ({ page, cleanup}) => {
 
 That's all there is to it! The cleanup functionality will now be automatically included in your tests.
 
-* It is advisable to define the extended `test` object in a separate, reusable `test-base` file.
+* The recommended approach is to place the extended test object in its own shared module (e.g., a dedicated setup or fixtures file), allowing all test files to import and use the same extended configuration.
 
 ## Options
 
@@ -71,9 +95,11 @@ That's all there is to it! The cleanup functionality will now be automatically i
 By default, the plugin writes detailed logging to the terminal. To suppress these logs, set the `suppressLogging` option to `true` and pass the option object as a parameter to `extendPlaywrightCleanup`:
 
 ```typescript
-const options:CleanupOptions = {
-  suppressLogging: true
-}
+import type { CleanupOptions, PlaywrightCleanup } from "playwright-cleanup";
+
+const options: CleanupOptions = {
+  suppressLogging: true,
+};
 
 const test = base.extend<CleanupOptions & PlaywrightCleanup>(extendPlaywrightCleanup(options));
 ```
