@@ -8,7 +8,8 @@
   ],
   "main": "build/app.js",
   "scripts": {
-    "test": "npx playwright test"
+    "test": "npx playwright test",
+    "build": "tsc -p tsconfig.json"
   },
   "keywords": [
     "playwright",
@@ -27,6 +28,7 @@
   "homepage": "https://github.com/tzurp/playwright-cleanup#readme",
   "devDependencies": {
     "@playwright/test": "^1.49.1",
-    "@types/node": "^26.1.2"
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
   }
 }
