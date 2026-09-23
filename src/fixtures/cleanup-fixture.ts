@@ -1,14 +1,27 @@
 import { Cleanup } from "../entities/cleanup";
 import { Options } from "../entities/options";
 
+type CleanupUse = (cleanup: Cleanup) => Promise<void>;
+
+const cleanupFixture = async({cleanupOptions}: {cleanupOptions: Options}, use: CleanupUse) => {
+    const cleanup = new Cleanup(cleanupOptions);
+
+    await use(cleanup);
+
+    await cleanup.finalize();
+};
+
+const cleanupFixtureWithRequest = async({cleanupOptions, request}: {cleanupOptions: Options, request: unknown}, use: CleanupUse) => {
+    const cleanup = new Cleanup(cleanupOptions);
+
+    await use(cleanup);
+
+    await cleanup.finalize();
+};
+
 const _playwrightCleanup = {
-    cleanup: async({cleanupOptions}: any, use: (arg0: Cleanup) => any) => {
-        const cleanup = new Cleanup(cleanupOptions);
-
-        await use(cleanup);
-
-        await cleanup.finalize();
-    }
+    cleanup: cleanupFixture,
+    cleanupWithRequest: cleanupFixtureWithRequest,
 };
 
 export const playwrightCleanup = _playwrightCleanup;

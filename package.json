@@ -9,7 +9,7 @@
   "main": "build/app.js",
   "scripts": {
     "test": "npx playwright test",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc"
   },
   "keywords": [
     "playwright",

@@ -4,10 +4,16 @@ import { Options } from "./options";
 export class Cleanup {
     private _supressLogging: boolean|undefined;
     private _cleanupList: Array<Function>;
+    private _isFinalized: boolean;
 
     constructor(options: Options) {
         this._supressLogging = options.suppressLogging;
         this._cleanupList = new Array<Function>();;
+        this._isFinalized = false;
+    }
+
+    get isFinalized(): boolean {
+        return this._isFinalized;
     }
 
     /**
@@ -22,6 +28,12 @@ export class Cleanup {
      * @deprecated Don't use this method directly.
      */
     async finalize(): Promise<void> {
+        if (this._isFinalized) {
+            return;
+        }
+
+        this._isFinalized = true;
+
         if (this._cleanupList.length <= 0) {
             return;
         }

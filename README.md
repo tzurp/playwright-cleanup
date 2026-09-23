@@ -104,6 +104,35 @@ const options: CleanupOptions = {
 const test = base.extend<CleanupOptions & PlaywrightCleanup>(extendPlaywrightCleanup(options));
 ```
 
+### dependOnRequest
+
+If a cleanup callback closes over Playwright's test-scoped `request` fixture, opt into making `request` a dependency of the cleanup fixture:
+
+```typescript
+const options: CleanupOptions = {
+  dependOnRequest: true,
+};
+
+const test = base.extend<CleanupOptions & PlaywrightCleanup>(extendPlaywrightCleanup(options));
+```
+
+With this option, Playwright keeps `request` alive until cleanup callbacks have finished. The callback still closes over the same `request` fixture used by the test:
+
+```typescript
+test("creates an entity", async ({ request, cleanup }) => {
+  const response = await request.post("/entities");
+  const entity = await response.json();
+
+  cleanup.addCleanup(async () => {
+    await request.delete(`/entities/${entity.id}`);
+  });
+});
+```
+
+The option is disabled by default, so existing version-2 teardown behavior is unchanged. It only coordinates the `request` fixture. `page.request` is a different API and is closed with its browser context; `page`, `context`, and custom fixtures are not implicit cleanup dependencies. A custom fixture that depends on `cleanup`, while cleanup also depends on that fixture, creates a Playwright fixture cycle.
+
+Cleanup callbacks run in reverse registration order. Callback failures are logged as warnings and do not fail the test.
+
 ## Typescript support
 
 Typescript is supported for this plugin.
