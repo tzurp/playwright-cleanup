@@ -129,7 +129,7 @@ test("creates an entity", async ({ request, cleanup }) => {
 });
 ```
 
-The option is disabled by default, so existing version-2 teardown behavior is unchanged. It only coordinates the `request` fixture. `page.request` is a different API and is closed with its browser context; `page`, `context`, and custom fixtures are not implicit cleanup dependencies. A custom fixture that depends on `cleanup`, while cleanup also depends on that fixture, creates a Playwright fixture cycle.
+The option is disabled by default, so existing version-2 teardown behavior is unchanged. It only coordinates the `request` fixture.
 
 Cleanup callbacks run in reverse registration order. Callback failures are logged as warnings and do not fail the test.
 
